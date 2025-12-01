@@ -5,6 +5,9 @@ It includes a Kafka **producer** and **consumer** using the official Spring Kafk
 
 ---
 
+## ⚠️ **Important:** This project uses Kafka 4.1.1 (KRaft mode). Zookeeper is not required, and the Kafka server **must be running** before calling any API.
+
+
 ## 📌 Project Features
 
 - Basic Kafka producer in Spring Boot
