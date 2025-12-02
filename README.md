@@ -96,3 +96,54 @@ Tips
 Use new terminal windows/tabs for server, consumer, and producer.
 For a clean start, always delete old logs:
 rm -rf /tmp/kraft-combined-logs
+
+✨ Feature: JSON Serializer & Deserializer for Kafka
+Branch: feature/json-serializer-deserializer
+This feature adds full JSON message support in Kafka using Spring Boot. It includes Jackson dependency updates, Kafka config improvements, a new POJO model, and a REST controller for publishing JSON messages.
+✅ Enhancements in This Feature
+### 1️⃣ Added Jackson Databind Dependency
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+2️⃣ Externalized Kafka Config (Removed Hardcoded Values)
+All topic names, group IDs, and serializers are now configured inside application.properties:
+spring.application.name=springboot-kafka-tutorial1
+
+# ========================
+# Kafka Broker Configuration
+# ========================
+spring.kafka.bootstrap-servers=localhost:9092
+
+# ========================
+# Consumer Configuration
+# ========================
+spring.kafka.consumer.group-id=myGroup
+spring.kafka.consumer.auto-offset-reset=earliest
+#spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+#spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+spring.kafka.consumer.properties.spring.json.trusted.packages=*
+
+# ========================
+# Producer Configuration
+# ========================
+#spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+#spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+spring.kafka.producer.acks=all
+spring.kafka.producer.retries=0
+
+spring.kafka.topic.name=javaTopic
+spring.kafka.topic-json.name=jsonTopic
+3️⃣ Created POJO Model Class for JSON Messages
+4️⃣ Added REST API for Publishing JSON to Kafka
+5️⃣ Summary of What This Feature Provides
+✔ JSON support for Kafka producer & consumer
+✔ Jackson dependency added
+✔ No hardcoded topic/group ID values
+✔ Clean REST endpoint for sending messages
+✔ POJO class added for structured JSON payload
+✔ Updated configurations to follow best practices
